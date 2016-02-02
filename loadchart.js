@@ -1,4 +1,4 @@
-(function($) {
+(function($, google) {
     google.load("visualization", "1", {packages: ["corechart"]});
 
     google.setOnLoadCallback(drawChart);
@@ -113,4 +113,4 @@
             targetChart.draw(chartTargetData, options);
         });
     }
-})(jQuery);
+})(jQuery, google);
