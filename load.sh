@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 
 # Builds the RESULT_HTML chart file
 
@@ -10,7 +10,7 @@ rm -rf reports*
 echo $1
 echo $3
 
-phantomprocess=$3" --local-to-remote-url-access=true --load-images=true --ignore-ssl-errors=true --web-security=false loadreport.js $1 performance json wip &"
+phantomprocess="$3 --local-to-remote-url-access=true --load-images=true --ignore-ssl-errors=true --web-security=false loadreport.js $1 performance json wip &"
 
 for ((i = 0; i<$2; i++))
 do

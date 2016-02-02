@@ -267,6 +267,7 @@ var loadreport = {
                 });
             }
 	console.log("Url :" + response.url);
+        console.log("ID : " + response.id);
 	console.log("Body size " + response.bodySize);
 
 	response.headers.forEach(function (header) {
@@ -343,7 +344,7 @@ var loadreport = {
             
             report.elapsedLoadTime = elapsed;
             report.numberOfResources = resources.length-1;
-            report.totalResourcesTime = totalDuration;
+            report.totalResourcesTime = 0;
             report.slowestResource = slowest.url;
             report.largestResource = largest.url;
             report.totalResourcesSize = (totalSize / 1000);
