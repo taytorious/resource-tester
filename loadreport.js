@@ -2,12 +2,12 @@ var fs = require('fs');
 var webpage = require('webpage');
 
 function sleep(milliseconds) {
-  var start = new Date().getTime();
-  for (var i = 0; i < 1e7; i++) {
-    if ((new Date().getTime() - start) > milliseconds){
-      break;
+    var start = new Date().getTime();
+    for (var i = 0; i < 1e7; i++) {
+        if ((new Date().getTime() - start) > milliseconds){
+            break;
+        }
     }
-  }
 }
 
 function waitFor(testFx, onReady, timeOutMillis) {
@@ -25,7 +25,7 @@ function waitFor(testFx, onReady, timeOutMillis) {
                     phantom.exit(1);
                 } else {
                     sleep(2000);
-		    // Condition fulfilled (timeout and/or condition is 'true')
+                    // Condition fulfilled (timeout and/or condition is 'true')
                     console.log("'waitFor()' finished in " + (new Date().getTime() - start) + "ms.");
                     typeof(onReady) === "string" ? eval(onReady) : onReady(); //< Do what it's supposed to do once the condition is fulfilled
                     clearInterval(interval); //< Stop this interval
@@ -35,107 +35,107 @@ function waitFor(testFx, onReady, timeOutMillis) {
 };
 
 function Stats(arr) {
-	var self = this;
-	var theArray = arr || [];
-	
-	//http://en.wikipedia.org/wiki/Mean#Arithmetic_mean_.28AM.29
-	self.getArithmeticMean = function() {
-		var sum = 0, length = theArray.length;
-		for(var i=0;i<length;i++) {
-		sum += theArray[i];
-		}
-		return sum/length;
-	}
-	
-	//http://en.wikipedia.org/wiki/Mean#Geometric_mean_.28GM.29
-	self.getGeometricMean = function() {
-		var product = 1, length = theArray.length;
-		for(var i=0;i<length;i++) {
-		product = product * theArray[i];
-		}
-		return Math.pow(product,(1/length));
-	}
-	
-	//http://en.wikipedia.org/wiki/Mean#Harmonic_mean_.28HM.29
-	self.getHarmonicMean = function() {
-		var sum = 0, length = theArray.length;
-		for(var i=0;i<length;i++) {
-		sum += (1/theArray[i]);
-		}
-		return length/sum;
-	}
-	
-	//http://en.wikipedia.org/wiki/Standard_deviation
-	self.getStandardDeviation = function() {
-		var arithmeticMean = this.getArithmeticMean();
-		var sum = 0, length = theArray.length;
-		for(var i=0;i<length;i++) {
-		sum += Math.pow(theArray[i]-arithmeticMean, 2);
-		}
-		return Math.pow(sum/length, 0.5);
-	}
-	
-	//http://en.wikipedia.org/wiki/Median
-	self.getMedian = function() {
-		var length = theArray.length;
-		var middleValueId = Math.floor(length/2);
-		var arr = theArray.sort(function(a, b){return a-b;});
-		return arr[middleValueId];
-	}
-	
-	//http://en.wikipedia.org/wiki/Median
-	self.get90Percentile = function() {
-		var length = theArray.length;
-		var percentileValueId = Math.floor(length*0.9);
-		var arr = theArray.sort(function(a, b){return a-b;});
-		return arr[percentileValueId];
-	}
-	
-	self.setArray = function(arr) {
-		theArray = arr;
-		return self;
-	}
-	self.getArray = function() {
-		return theArray;
-	}
-	
-	return self;
+    var self = this;
+    var theArray = arr || [];
+
+    //http://en.wikipedia.org/wiki/Mean#Arithmetic_mean_.28AM.29
+    self.getArithmeticMean = function() {
+        var sum = 0, length = theArray.length;
+        for(var i=0;i<length;i++) {
+            sum += theArray[i];
+        }
+        return sum/length;
+    }
+
+    //http://en.wikipedia.org/wiki/Mean#Geometric_mean_.28GM.29
+    self.getGeometricMean = function() {
+        var product = 1, length = theArray.length;
+        for(var i=0;i<length;i++) {
+            product = product * theArray[i];
+        }
+        return Math.pow(product,(1/length));
+    }
+
+    //http://en.wikipedia.org/wiki/Mean#Harmonic_mean_.28HM.29
+    self.getHarmonicMean = function() {
+        var sum = 0, length = theArray.length;
+        for(var i=0;i<length;i++) {
+            sum += (1/theArray[i]);
+        }
+        return length/sum;
+    }
+
+    //http://en.wikipedia.org/wiki/Standard_deviation
+    self.getStandardDeviation = function() {
+        var arithmeticMean = this.getArithmeticMean();
+        var sum = 0, length = theArray.length;
+        for(var i=0;i<length;i++) {
+            sum += Math.pow(theArray[i]-arithmeticMean, 2);
+        }
+        return Math.pow(sum/length, 0.5);
+    }
+
+    //http://en.wikipedia.org/wiki/Median
+    self.getMedian = function() {
+        var length = theArray.length;
+        var middleValueId = Math.floor(length/2);
+        var arr = theArray.sort(function(a, b){return a-b;});
+        return arr[middleValueId];
+    }
+
+    //http://en.wikipedia.org/wiki/Median
+    self.get90Percentile = function() {
+        var length = theArray.length;
+        var percentileValueId = Math.floor(length*0.9);
+        var arr = theArray.sort(function(a, b){return a-b;});
+        return arr[percentileValueId];
+    }
+
+    self.setArray = function(arr) {
+        theArray = arr;
+        return self;
+    }
+    self.getArray = function() {
+        return theArray;
+    }
+
+    return self;
 }
 
 var loadreport = {
 
     run: function () {
-            var cliConfig = {};
-            loadreport.performancecache = this.clone(loadreport.performance);
-            
+        var cliConfig = {};
+        loadreport.performancecache = this.clone(loadreport.performance);
 
-	    var contract = [
-                {
-                    name: 'url',
-                    def: 'http://google.com',
-                    req: true,
-                    desc: 'the URL of the site to load test'
-                }, {
-                    name: 'task',
-                    def: 'performance',
-                    req: false,
-                    desc: 'the task to perform',
-                    oneof: ['performance', 'performancecache', 'filmstrip']
-                }, {
-                    name: 'configFile',
-                    def: 'config.json',
-                    req: false,
-                    desc: 'a local configuration file of further loadreport settings'
-                }
-            ];
-	
-	    if (!this.processArguments(cliConfig, contract)) {                
-                return;
+
+        var contract = [
+            {
+                name: 'url',
+                def: 'http://google.com',
+                req: true,
+                desc: 'the URL of the site to load test'
+            }, {
+                name: 'task',
+                def: 'performance',
+                req: false,
+                desc: 'the task to perform',
+                oneof: ['performance', 'performancecache', 'filmstrip']
+            }, {
+                name: 'configFile',
+                def: 'config.json',
+                req: false,
+                desc: 'a local configuration file of further loadreport settings'
             }
+        ];
 
-            this.config = this.mergeConfig(cliConfig, cliConfig.configFile);
-            var task = this[this.config.task];
-            this.load(this.config, task, this);
+        if (!this.processArguments(cliConfig, contract)) {
+            return;
+        }
+
+        this.config = this.mergeConfig(cliConfig, cliConfig.configFile);
+        var task = this[this.config.task];
+        this.load(this.config, task, this);
     },
 
     performance: {
@@ -143,9 +143,9 @@ var loadreport = {
         timer : 0,
         evalConsole : {},
         evalConsoleErrors : [],
-	xhrcalls: [],
-        
-	onInitialized: function(page, config) {
+        xhrcalls: [],
+
+        onInitialized: function(page, config) {
             var pageeval = page.evaluate(function(startTime) {
                 var now = new Date().getTime();
                 //check the readystate within the page being loaded
@@ -156,10 +156,10 @@ var loadreport = {
                         console.log('loading-' + (new Date().getTime() - startTime));
                         //don't clear the interval until we get last measurement
                         var loadTimeCurr = new Date().getTime();
-			console.log(loadTimeCurr - now);                        
-			if ((loadTimeCurr - now) > 60000){
+                        console.log(loadTimeCurr - now);
+                        if ((loadTimeCurr - now) > 60000){
                             clearInterval(_timer3);
-		            phantom.exit();
+                            phantom.exit();
                         }
                     }
                 }, 5);
@@ -168,9 +168,9 @@ var loadreport = {
                 var _timer1=setInterval(function(){
                     if(/interactive/.test(document.readyState)){
                         console.log('interactive-' + (new Date().getTime() - startTime));
-                        clearInterval(_timer1); 
+                        clearInterval(_timer1);
                         //clear loading interval
-                        clearInterval(_timer3); 
+                        clearInterval(_timer3);
                     }
                 }, 5);
 
@@ -193,7 +193,7 @@ var loadreport = {
                 window.addEventListener("load", function() {
                     console.log('onload-' + (new Date().getTime() - startTime));
                 }, false);
-                
+
                 //check for JS errors
                 window.onerror = function(message, url, linenumber) {
                     console.log("jserror-JavaScript error: " + message + " on line " + linenumber + " for " + url);
@@ -222,22 +222,22 @@ var loadreport = {
             if (!this.performance.start || now < this.performance.start) {
                 this.performance.start = now;
             }
-	    
-	    
+
+
             // set if XHR call
-	    request.headers.forEach(function(header){
-	    	if ((header.name.toLowerCase()=='x-requested-with') && (header.value.toLowerCase()=='xmlhttprequest')){
-			isXhr = true;
-			console.log("XHR " + request.url);		
-		}
-            });  	
+            request.headers.forEach(function(header){
+                if ((header.name.toLowerCase()=='x-requested-with') && (header.value.toLowerCase()=='xmlhttprequest')){
+                    isXhr = true;
+                    console.log("XHR " + request.url);
+                }
+            });
             if (isXhr){
-	            this.performance.xhrcalls.push(request.url);
-            }   
-	    
-	    console.log("Request URL : " + request.url);
-		console.log('Request (#' + request.id + '): ' + JSON.stringify(request));
-	
+                this.performance.xhrcalls.push(request.url);
+            }
+
+            console.log("Request URL : " + request.url);
+            console.log('Request (#' + request.id + '): ' + JSON.stringify(request));
+
 
         },
         onResourceReceived: function (page, config, response) {
@@ -257,22 +257,22 @@ var loadreport = {
                 resource.duration = now - resource.times.request;
             }
             if (response.bodySize) {
-		resource.size = response.bodySize;
-		
+                resource.size = response.bodySize;
+
             } else if (!resource.size) {
                 response.headers.forEach(function (header) {
                     if (header.name.toLowerCase()=='content-length' && header.value != 0) {
                         resource.size = parseInt(header.value);
-		    }
+                    }
                 });
             }
-	console.log("Url :" + response.url);
-        console.log("ID : " + response.id);
-	console.log("Body size " + response.bodySize);
+            console.log("Url :" + response.url);
+            console.log("ID : " + response.id);
+            console.log("Body size " + response.bodySize);
 
-	response.headers.forEach(function (header) {
-                    console.log(header.name + ":" + header.value);
-                });
+            response.headers.forEach(function (header) {
+                console.log(header.name + ":" + header.value);
+            });
 
         },
         onLoadFinished: function (page, config, status) {
@@ -285,10 +285,10 @@ var loadreport = {
                 missingSize = false,
                 elapsed = finish - start,
                 now = new Date();
-		if (status !== 'success') {
-	            console.log("FAIL");
-	            return;
-	        }	
+            if (status !== 'success') {
+                console.log("FAIL");
+                return;
+            }
 
             resources.forEach(function (resource) {
                 if (!resource.times.start) {
@@ -300,10 +300,10 @@ var loadreport = {
                 if (!fastest || resource.duration < fastest.duration) {
                     fastest = resource;
                 }
-                
-		if (!isNaN(resource.duration) && (resource.duration != null) && resource.duration != ""){                 
-		totalDuration = totalDuration + parseInt(resource.duration);
-		}
+
+                if (!isNaN(resource.duration) && (resource.duration != null) && resource.duration != ""){
+                    totalDuration = totalDuration + parseInt(resource.duration);
+                }
 
                 if ((resource.size!=undefined) && (resource.size!=0)) {
                     if (!largest || resource.size > largest.size) {
@@ -312,16 +312,16 @@ var loadreport = {
                     if (!smallest || resource.size < smallest.size) {
                         smallest = resource;
                     }
-		    	
+
                     totalSize += resource.size;
                 } else {
                     resource.size = 0;
                     missingSize = true;
                     missingList.push(resource.url);
                 }
-		
+
             });
-		
+
 
             if (config.verbose) {
                 console.log('');
@@ -341,7 +341,7 @@ var loadreport = {
             report.domReadystateInteractive = isNaN(drsi) == false ? drsi : 0;
             // report.domReadystateComplete = isNaN(drsc) == false ? drsc : 0;
             report.windowOnload = isNaN(wo) == false ? wo : 0;
-            
+
             report.elapsedLoadTime = elapsed;
             report.numberOfResources = resources.length-1;
             report.totalResourcesTime = 0;
@@ -355,13 +355,14 @@ var loadreport = {
             report.time = now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds();
             report.errors = this.performance.evalConsoleErrors;
             report.xhrcalls = this.performance.xhrcalls;
-	    report.resource = [];
-	    resources.forEach(function (resource) {
-		    var object = new Object();
-                    object.url = resource.url;
-                    object.size = resource.size; 	
-                    report.resource.push(object);
-                }); 
+            report.resource = [];
+            resources.forEach(function (resource) {
+                var object = new Object();
+                object.url = resource.url;
+                object.size = resource.size;
+                object.duration = resource.duration;
+                report.resource.push(object);
+            });
 
 
             console.log('Elapsed load time: ' + this.pad(elapsed, 6) + 'ms');
@@ -411,8 +412,8 @@ var loadreport = {
                 config.userAgent = config.userAgentAliases[config.userAgent];
             }
             page.settings.userAgent = config.userAgent;
-	    page.settings.userAgent = "Mozilla/5.0 (X11; Linux x86_64; rv:20.0) Gecko/20100101 Firefox/20.0";
-	    page.settings.loadPlugins = true;	
+            page.settings.userAgent = "Mozilla/5.0 (X11; Linux x86_64; rv:20.0) Gecko/20100101 Firefox/20.0";
+            page.settings.loadPlugins = true;
         }
         var eventHandlers = ['onInitialized', 'onLoadStarted', 'onResourceRequested', 'onResourceReceived'];
         eventHandlers.forEach(function (event) {
@@ -441,30 +442,30 @@ var loadreport = {
                     task.onLoadFinished.call(scope, page, config, status);
                 }
                 //phantom.exit();
-waitFor(function() {
-					    // Check in the page if a specific element is now visible
-					    return page.evaluate(function() {
-						return (document.readyState == 'complete');
-					    });
-					}, function() {
-					   console.log("Document ready");
-					   phantom.exit();
-					}); 
+                waitFor(function() {
+                    // Check in the page if a specific element is now visible
+                    return page.evaluate(function() {
+                        return (document.readyState == 'complete');
+                    });
+                }, function() {
+                    console.log("Document ready");
+                    phantom.exit();
+                });
 
                 page = webpage.create();
                 doPageLoad();
             };
         } else {
             page.onLoadFinished = function (status) {
-	waitFor(function() {
-					    // Check in the page if a specific element is now visible
-					    return page.evaluate(function() {
-						return (document.readyState == 'complete');
-					    });
-					}, function() {
-					   console.log("Document ready");
-					   phantom.exit();
-					}); 
+                waitFor(function() {
+                    // Check in the page if a specific element is now visible
+                    return page.evaluate(function() {
+                        return (document.readyState == 'complete');
+                    });
+                }, function() {
+                    console.log("Document ready");
+                    phantom.exit();
+                });
                 //phantom.exit();
             };
         }
@@ -479,8 +480,8 @@ waitFor(function() {
                     loadreport.performance.evalConsole.loading = msg.substring('loading-'.length,msg.length);
                 } else if (msg.indexOf('interactive-') >= 0){
                     loadreport.performance.evalConsole.interactive = msg.substring('interactive-'.length,msg.length);
-                // } else if (msg.indexOf('complete-') >= 0){
-                //     loadreport.performance.evalConsole.complete = msg.substring('complete-'.length,msg.length);
+                    // } else if (msg.indexOf('complete-') >= 0){
+                    //     loadreport.performance.evalConsole.complete = msg.substring('complete-'.length,msg.length);
                 } else if (msg.indexOf('onload-') >= 0){
                     loadreport.performance.evalConsole.onload = msg.substring('onload-'.length,msg.length);
                 }
@@ -498,23 +499,23 @@ waitFor(function() {
         function doPageLoad(){
             setTimeout(function(){
                 page.open(config.url, function(status){
-                                        if (status !== 'success') {
-                                                console.log("FAIL:" + status);
-                                                phantom.exit(1);
-                                            }
-					else{
-					// Wait for 'signin-dropdown' to be visible
-					waitFor(function() {
-					    // Check in the page if a specific element is now visible
-					    return page.evaluate(function() {
-						return (document.readyState == 'complete');
-					    });
-					}, function() {
-					   console.log("Document ready");
-					   //phantom.exit();
-					}); 
-									}
-		        		});},config.cacheWait);
+                    if (status !== 'success') {
+                        console.log("FAIL:" + status);
+                        phantom.exit(1);
+                    }
+                    else{
+                        // Wait for 'signin-dropdown' to be visible
+                        waitFor(function() {
+                            // Check in the page if a specific element is now visible
+                            return page.evaluate(function() {
+                                return (document.readyState == 'complete');
+                            });
+                        }, function() {
+                            console.log("Document ready");
+                            //phantom.exit();
+                        });
+                    }
+                });},config.cacheWait);
         }
 
         if(config.task == 'performancecache'){
