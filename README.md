@@ -34,14 +34,14 @@ Example:
 
 
 Edit the config.json file to target the resources and browser events of your choosing. The config is setup for two graphs:
-one for browser events (main) and one for target resources (targets).
+one for page metrics (main) and one for target resource metrics (targets).
 
 ```javascript
 {
   "configs": {
     "main": {
       "resourceGraph": false,
-      "targets": [              // Browser events to target
+      "targets": [              // page metrics to target
 
         {
           "name": "",           // Name is any of the supported browser events. See below.
