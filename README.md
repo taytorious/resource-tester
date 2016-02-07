@@ -7,7 +7,7 @@ Sample Output:
 
 ![](img/sample.png?raw=true)
 
-In this case, we are comparing the performance of a page loading a single resource (global.js) sync vs async. The first
+In this case, we are comparing the performance of a page loading a resource (global.js) sync vs async. The first
 graph shows us that DOM interactive is much more consistent when global.js is loaded async. The second graph shows us
 performance metrics specific to global.js.
 
