@@ -139,7 +139,7 @@ Start a server of your choosing to serve the results page locally.
 Open a web browser and navigate to http://localhost:8000/results.html
 
 
-##Supported Page Metics
+##Supported Page Metrics
 
 * elapsedLoadTime
 * totalResourceTime
