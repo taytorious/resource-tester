@@ -55,7 +55,7 @@ one for page metrics (main) and one for target resource metrics (targets).
       "targets": [              // page metrics to target
 
         {
-          "name": "",           // Name is any of the supported browser events. See below.
+          "name": "",           // Name is any of the supported page metrics. See below.
           "title": ""           // Event display name on the graph
         }
       ],
