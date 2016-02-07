@@ -1,4 +1,4 @@
-##Oz Loadtester
+##Resource tester
 
 PhantomJS tool that measures pageload performance and allows you to target individual reources on the page.
 
