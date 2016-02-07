@@ -21,6 +21,7 @@ Run the PhantomJS tool. Be sure to namespace your report files.
     sh load.sh <url> <number of runs> <path to phantom> <report filename>
 
 Example:
+
     sh load.sh http://www.doctoroz.com 30 phantomjs test1
 
 
