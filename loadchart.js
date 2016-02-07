@@ -10,6 +10,20 @@ function LoadChart(el, chartConfig, reports) {
 
 }
 
+function cleanAdd(target, value) {
+    var newValue;
+    if (target) {
+
+        newValue += value;
+
+    } else {
+
+        newValue = value;
+
+    }
+    return newValue;
+}
+
 LoadChart.prototype.init = function () {
 
     this.chartJson = {
@@ -98,6 +112,7 @@ LoadChart.prototype.populateResourceData = function(data, index) {
     var targetTotal = 0;
     var targetDuration = [];
     var targetEnd = [];
+    var targetSize = [];
     var targets = this.chartConfig.targets;
 
     for (var j = 0; j < data.resource.length; j++) {
@@ -106,18 +121,8 @@ LoadChart.prototype.populateResourceData = function(data, index) {
 
             if (data.resource[j].url.indexOf(targets[q].name) > 0) {
 
-                targetTotal += data.resource[j].duration;        // Add the duration to our total
-
-                if (targetDuration[targets[q].name]) {
-
-                    targetDuration[targets[q].name] += data.resource[j].duration;
-
-                } else {
-
-                    targetDuration[targets[q].name] = data.resource[j].duration;
-
-                }
-
+                targetDuration[targets[q].name] = cleanAdd(targetDuration[targets[q].name], data.resource[j].duration);
+                targetSize[targets[q].name] = cleanAdd(targetSize[targets[q].name], data.resource[j].size);
                 targetEnd[targets[q].name] = data.resource[j].end;
             }
 
@@ -128,7 +133,7 @@ LoadChart.prototype.populateResourceData = function(data, index) {
         var singleTargetRow = this.rows[index];
     } else {
         var singleTargetRow = {
-            "c": [{"v": index},
+            "c": [{"v": index}
             ]
         };
     }
@@ -138,6 +143,10 @@ LoadChart.prototype.populateResourceData = function(data, index) {
 
         for (q = 0; q < this.chartConfig.metrics.length; q++) {
             switch(this.chartConfig.metrics[q]) {
+                case "size":
+                    node = {"nodeid1": targets[j].title + " " + this.chartConfig.metrics[q] + " (" + this.reports[this.reportIndex].name + ")", "v": targetSize[targets[j].name]};
+                    singleTargetRow['c'].push(node);
+                    break;
                 case "duration":
                     node = {"nodeid1": targets[j].title + " " + this.chartConfig.metrics[q] + " (" + this.reports[this.reportIndex].name + ")", "v": targetDuration[targets[j].name]};
                     singleTargetRow['c'].push(node);
