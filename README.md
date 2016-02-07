@@ -151,9 +151,9 @@ Open a web browser and navigate to http://localhost:8000/results.html
 
 ##Supported Resource Metrics
 
-* size      // Resource size
-* duration  // Request duration
-* end       // Time from initial pageload to request recieved
+* `size` - Resource size
+* `duration` - Request duration
+* `end` - Time from initial pageload to request end
 
 
 ##What can these scripts measure:
