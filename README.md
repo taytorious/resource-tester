@@ -7,27 +7,27 @@ PhantomJS tool that measures pageload performance and allows you to target indiv
 
 Install PhantomJS 1.9.8.
 
-    -brew install homebrew/versions/phantomjs198
+    brew install homebrew/versions/phantomjs198
 
 Clone the repo
 
-    -git init
-    -git clone https://git.alias.sharecare.com/tjohnson/oz-loadtest.git
+    git init
+    git clone https://git.alias.sharecare.com/tjohnson/oz-loadtest.git
 
 If you wish to use your own phantomJS configuration, edit the phantomConfig.json file to your liking.
 
 Run the PhantomJS tool. Be sure to namespace your report files.
 
-    -sh load.sh <url> <number of runs> <path to phantom> <report filename>
+    sh load.sh <url> <number of runs> <path to phantom> <report filename>
 
-    Example:
-    -sh load.sh http://www.doctoroz.com 30 phantomjs test1
+Example:
+    sh load.sh http://www.doctoroz.com 30 phantomjs test1
 
 
 Edit the config.json file to target the resources and browser events of your choosing. The config is setup for two graphs:
 one for browser events (main) and one for target resources (targets).
 
-```json
+```javascript
 {
   "configs": {
     "main": {
@@ -128,7 +128,7 @@ config.json example:
 
 Start a server of your choosing to serve the results page locally.
 
-    -python -m SimpleHTTPServer 8000
+    python -m SimpleHTTPServer 8000
 
 Open a web browser and navigate to http://localhost:8000/results.html
 
