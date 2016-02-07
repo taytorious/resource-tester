@@ -141,25 +141,26 @@ Open a web browser and navigate to http://localhost:8000/results.html
 
 ##Supported Page Metics
 
-    * elapsedLoadTime
-    * totalResourceTime
-    * numberOfResources
-    * totalResourceSize
-    * domReadystateInteractive
-    * domReadyStateLoading
-    * nonReportingResources
+* elapsedLoadTime
+* totalResourceTime
+* numberOfResources
+* totalResourceSize
+* domReadystateInteractive
+* domReadyStateLoading
+* nonReportingResources
 
 ##Supported Resource Metrics
 
-    * size      // Resource size
-    * duration  // Request duration
-    * end       // Time from initial pageload to request recieved
+* size      // Resource size
+* duration  // Request duration
+* end       // Time from initial pageload to request recieved
 
 
 ##What can these scripts measure:
-    * page load time testing
-    * size and number of resources retrieved for URL call
-    * load time for each resource
+
+* page load time testing
+* size and number of resources retrieved for URL call
+* load time for each resource
 
 
 ##TODO:
