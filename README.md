@@ -13,7 +13,7 @@ Extension of [https://github.com/loadfocus/pageloadtime](https://github.com/load
 
 
 
-Sample Output:
+##Sample Output:
 
 ![](img/sample.png?raw=true)
 
