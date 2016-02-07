@@ -5,6 +5,14 @@ capture hundreds of data points for a given URL in minutes. Output is JSON confi
 
 Extension of [https://github.com/loadfocus/pageloadtime](https://github.com/loadfocus/pageloadtime)
 
+##What can these scripts measure:
+
+* page load time testing
+* size and number of resources retrieved for URL call
+* load time for each resource
+
+
+
 Sample Output:
 
 ![](img/sample.png?raw=true)
@@ -12,12 +20,6 @@ Sample Output:
 In this case, we are comparing the performance of a page loading a resource (global.js) sync vs async. The first
 graph shows us that DOM interactive is much more consistent when global.js is loaded async. The second graph shows us
 performance metrics specific to global.js.
-
-##What can these scripts measure:
-
-* page load time testing
-* size and number of resources retrieved for URL call
-* load time for each resource
 
 
 ##Quick Start
