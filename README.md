@@ -72,6 +72,7 @@ one for browser events (main) and one for target resources (targets).
 }
 ```
 
+
 config.json example:
 
 ```json
@@ -137,6 +138,7 @@ Start a server of your choosing to serve the results page locally.
 
 Open a web browser and navigate to http://localhost:8000/results.html
 
+
 ##Supported Page Metics
 
     * elapsedLoadTime
@@ -160,5 +162,8 @@ Open a web browser and navigate to http://localhost:8000/results.html
     * load time for each resource
 
 
+##TODO:
+
+Refactor using phantomJS 2 and the Navigation Timing API
 
 
