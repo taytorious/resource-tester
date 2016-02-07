@@ -1,6 +1,7 @@
 ##Resource Tester
 
-PhantomJS tool that measures pageload performance and allows you to target individual reources on the page.
+PhantomJS tool that measures pageload performance and allows you to target individual reources on the page. This tool will
+capture hundreds of data points for a given URL in minutes. Output is JSON configurable and displayed in a Google Graph.
 
 Sample Output:
 
