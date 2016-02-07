@@ -1,116 +1,192 @@
-(function($, google) {
-    google.load("visualization", "1", {packages: ["corechart"]});
+function LoadChart(el, chartConfig, reports) {
+    this.el = el;
+    this.chartConfig = chartConfig;
+    this.rows = [];
+    this.reportIndex = 0;
+    this.reports = reports;
+    this.chartJson = {};
+    this.init();
+    this.getData(reports[0]);
 
-    google.setOnLoadCallback(drawChart);
+}
 
-    function drawChart() {
-        var rows = new Array();
-        var columns = new Array();
-        var target = ['outbrain', 'comscore', 'chartbeat'];
+LoadChart.prototype.init = function () {
 
+    this.chartJson = {
+        "cols": [
+            {"id": "", "label": "commitNumber", "type": "string"}
+        ]
+    };
 
-        var targetRows = new Array();
-        var targetColumns = new Array();
+    for (var i=0; i<this.reports.length; i++) {
+        for (var j = 0; j < this.chartConfig.targets.length; j++) {
 
-        $.getJSON("reports/loadreport-wip.json", function (data) {
-            console.log(data);
+            if(this.chartConfig.resourceGraph) {
+                for (var q = 0; q < this.chartConfig.metrics.length; q++) {
 
-            for (var i = 0; i < data.length; i++) {
-                var singleRow = {
-                    "c": [{"v": i},
-                        {"node": "Elapsed Load Time", "v": data[i].elapsedLoadTime},
-                        {"nodeid": "Total resources time", "v": data[i].totalResourcesTime},
-                        {"nodeid1": "Number of resources", "v": data[i].numberOfResources},
-                        {"nodeid1": "Total resources size", "v": data[i].totalResourcesSize},
-                        {"nodeid1": "DOM ready state interactive", "v": data[i].domReadystateInteractive},
-                        {"nodeid1": "DOM ready state loading", "v": data[i].domReadystateLoading},
-                        {"nodeid1": "Non reporting resources", "v": data[i].nonReportingResources}
-
-                    ]
-                };
-
-                rows.push(singleRow);
-                $('#slowest').append('<li>Run' + i + " URL: " + data[i].slowestResource + '</li>');
-                $('#largest').append('<li>Run' + i + " URL: " + data[i].largestResource + '</li>');
-
-                var targetTotal = 0;
-                var targetVals = new Array(target.length);
-                for (var j = 0; j < data[i].resource.length; j++) {
-                    $('#resource').append('<li>Run ' + i + " URL: " + data[i].resource[j].url + ' Size: ' + data[i].resource[j].size + ' bytes</li>');
-
-                    for (var q = 0; q < target.length; q++) {
-                        if (data[i].resource[j].url.indexOf(target[q]) > 0) {
-                            targetTotal += data[i].resource[j].duration;        // Add the duration to our total
-                            if (targetVals[target[q]]) {
-                                targetVals[target[q]] += data[i].resource[j].duration;
-                            } else {
-                                targetVals[target[q]] = data[i].resource[j].duration;
-                            }
-                        }
-                    }
+                    this.chartJson['cols'].push({"id": "", "label": this.chartConfig.targets[j].title + " " + this.chartConfig.metrics[q] + " (" + this.reports[i].name + ")", "type": "number"});
 
                 }
 
-                var singleTargetRow = {
-                    "c": [{"v": i},
-                        {"node": "Target Total", "v": targetTotal},
-                    ]
-                };
+            } else {
 
-                for (var q = 0; q < target.length; q++) {
-                    var node = {"nodeid1": target[q], "v": targetVals[target[q]]}
-                    singleTargetRow['c'].push(node);
-                }
-
-                targetRows.push(singleTargetRow);
-
-
-                $('#resource').append('<li>**********************************************************************************************************</li>');
+                this.chartJson['cols'].push({"id": "", "label": this.chartConfig.targets[j].title + " (" + this.reports[i].name + ")", "type": "number"});
 
             }
 
-            var jsonData = {
-                "cols": [
-                    {"id": "", "label": "commitNumber", "type": "string"},
-                    {"id": "", "label": "Elapsed Load Time", "type": "number"},
-                    {"id": "", "label": "Total resources time", "type": "number"},
-                    {"id": "", "label": "Number of resources", "type": "number"},
-                    {"id": "", "label": "Total resources size", "type": "number"},
-                    {"id": "", "label": "DOM ready state interactive", "type": "number"},
-                    {"id": "", "label": "DOM ready state loading", "type": "number"},
-                    {"id": "", "label": "Non reporting resources", "type": "number"}
-                ], "rows": rows
-            };
 
-            var newData = new google.visualization.DataTable(jsonData);
-            var options = {
-                title: 'Load test results ' + data[0].url,
-                curveType: "function"
-            };
-            var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-            chart.draw(newData, options);
-
-            var targetData = {
-                "cols": [
-                    {"id": "", "label": "commitNumber", "type": "string"},
-                    {"id": "", "label": "Target Total", "type": "number"},
-                ], "rows": targetRows
-            };
-
-            for (var q = 0; q < target.length; q++) {
-                var node = {"id": "", "label": target[q], "type": "number"};
-                targetData['cols'].push(node);
-            }
+        }
 
 
-            var chartTargetData = new google.visualization.DataTable(targetData);
-            options = {
-                title: 'Target Test Results (Outbrain, Comscore, Chartbeat) ' + data[0].url,
-                curveType: "function"
-            };
-
-            var targetChart = new google.visualization.LineChart(document.getElementById('target_chart_div'));
-            targetChart.draw(chartTargetData, options);
-        });
     }
-})(jQuery, google);
+
+
+
+
+};
+
+
+LoadChart.prototype.getData = function(report) {
+    var self = this;
+
+    var jqxhr = $.getJSON(report.file, function (data) {
+        console.log(data);
+
+        for (var i = 0; i < data.length; i++) {
+
+            if(self.chartConfig.resourceGraph) {
+
+                if(self.rows[i] !== undefined) {
+                    self.populateResourceData(data[i], i);
+                } else {
+                    self.rows.push(self.populateResourceData(data[i], i));
+                }
+
+
+            } else {
+
+                if(self.rows[i] !== undefined) {
+                    self.populatePageData(data[i], i);
+                } else {
+                    self.rows.push(self.populatePageData(data[i], i));
+                }
+            }
+        }
+
+
+
+
+    }).done(function() {
+        self.reportIndex++;
+        if (self.reportIndex < self.reports.length) {
+            self.getData(self.reports[self.reportIndex]);
+        } else {
+            self.graphData();
+        }
+    });
+
+    // Set another completion function for the request above
+    jqxhr.complete(function() {
+
+    });
+
+
+};
+
+LoadChart.prototype.populateResourceData = function(data, index) {
+
+    var targetTotal = 0;
+    var targetDuration = [];
+    var targetEnd = [];
+    var targets = this.chartConfig.targets;
+
+    for (var j = 0; j < data.resource.length; j++) {
+
+        for (var q = 0; q < targets.length; q++) {
+
+            if (data.resource[j].url.indexOf(targets[q].name) > 0) {
+
+                targetTotal += data.resource[j].duration;        // Add the duration to our total
+
+                if (targetDuration[targets[q].name]) {
+
+                    targetDuration[targets[q].name] += data.resource[j].duration;
+
+                } else {
+
+                    targetDuration[targets[q].name] = data.resource[j].duration;
+
+                }
+
+                targetEnd[targets[q].name] = data.resource[j].end;
+            }
+
+        }
+    }
+
+    if (this.rows[index] !== undefined) {
+        var singleTargetRow = this.rows[index];
+    } else {
+        var singleTargetRow = {
+            "c": [{"v": index},
+            ]
+        };
+    }
+    for (j = 0; j < targets.length; j++) {
+
+        var node = {};
+
+        for (q = 0; q < this.chartConfig.metrics.length; q++) {
+            switch(this.chartConfig.metrics[q]) {
+                case "duration":
+                    node = {"nodeid1": targets[j].title + " " + this.chartConfig.metrics[q] + " (" + this.reports[this.reportIndex].name + ")", "v": targetDuration[targets[j].name]};
+                    singleTargetRow['c'].push(node);
+                    break;
+                case "end":
+                    node = {"nodeid1": targets[j].title + " " + this.chartConfig.metrics[q] + " (" + this.reports[this.reportIndex].name + ")", "v": targetEnd[targets[j].name]};
+                    singleTargetRow['c'].push(node);
+                    break;
+                default :
+                    node = {"nodeid1": targets[j].title + " duration"  + " (" + this.reports[this.reportIndex].name + ")", "v": targetDuration[targets[j].name]};
+                    singleTargetRow['c'].push(node);
+            }
+
+        }
+
+    }
+    return singleTargetRow;
+};
+
+LoadChart.prototype.populatePageData = function(data, index) {
+
+    var targets = this.chartConfig.targets;
+    if (this.rows[index]) {
+        var singleRow = this.rows[index];
+    } else {
+        var singleRow = {
+            "c": [{"v": index}]
+        };
+    }
+
+
+    for (var j = 0; j<targets.length; j++) {
+        singleRow['c'].push({"nodeid1": targets[j].title + " (" + this.reports[this.reportIndex] + ")", "v": data[targets[j].name]})
+    }
+    return singleRow;
+
+};
+
+
+LoadChart.prototype.graphData = function() {
+    this.chartJson['rows'] = this.rows;
+
+    var newData = new google.visualization.DataTable(this.chartJson);
+    var options = this.chartConfig.options;
+    var chart = new google.visualization.LineChart(document.getElementById(this.el));
+    chart.draw(newData, options);
+
+
+};
+
+window.LoadChart = LoadChart;
+
