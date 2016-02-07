@@ -65,7 +65,7 @@ one for page metrics (main) and one for target resource metrics (targets).
     },
     "targets": {
       "resourceGraph": true,
-      "metrics": [],            // Array
+      "metrics": [],            // size, duration, and/or end
       "targets": [              // Individual resources to target
         {
           "name": "",           // Name is any string in the resource URL that will identify it as that resource
