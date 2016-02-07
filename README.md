@@ -2,6 +2,10 @@
 
 PhantomJS tool that measures pageload performance and allows you to target individual reources on the page.
 
+Sample Output:
+
+![](img/sample.png?raw=true)
+
 
 ##Quick Start
 
