@@ -31,7 +31,7 @@ Install PhantomJS 1.9.8.
 Clone the repo
 
     git init
-    git clone https://git.alias.sharecare.com/tjohnson/oz-loadtest.git
+    git clone git@github.com:taytorious/resource-tester.git
 
 If you wish to use your own phantomJS configuration, edit the phantomConfig.json file to your liking.
 
