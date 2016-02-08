@@ -7,7 +7,7 @@ Extension of [https://github.com/loadfocus/pageloadtime](https://github.com/load
 
 ##What can these scripts measure:
 
-* page load time testing
+* page load times
 * size and number of resources retrieved for URL call
 * load time for each resource
 
