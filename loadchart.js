@@ -64,7 +64,6 @@ LoadChart.prototype.getData = function(report) {
     var self = this;
 
     var jqxhr = $.getJSON(report.file, function (data) {
-        console.log(data);
 
         for (var i = 0; i < data.length; i++) {
 
@@ -99,12 +98,6 @@ LoadChart.prototype.getData = function(report) {
         }
     });
 
-    // Set another completion function for the request above
-    jqxhr.complete(function() {
-
-    });
-
-
 };
 
 LoadChart.prototype.populateResourceData = function(data, index) {
@@ -114,7 +107,6 @@ LoadChart.prototype.populateResourceData = function(data, index) {
     var targetEnd = [];
     var targetSize = [];
     var targets = this.chartConfig.targets;
-
     for (var j = 0; j < data.resource.length; j++) {
 
         for (var q = 0; q < targets.length; q++) {

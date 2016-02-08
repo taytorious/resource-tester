@@ -5,11 +5,12 @@ capture hundreds of data points for a given URL in minutes. Output is JSON confi
 
 Extension of [https://github.com/loadfocus/pageloadtime](https://github.com/loadfocus/pageloadtime)
 
-##What can these scripts measure:
+##What these scripts can measure:
 
-* page load times
-* size and number of resources retrieved for URL call
-* load time for each resource
+* Page load times
+* Size and number of resources retrieved for URL call
+* Load time for each resource
+* Great for measuring pageload consitency with different features in place
 
 
 
