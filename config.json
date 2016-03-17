@@ -5,12 +5,12 @@
       "targets": [
 
         {
-          "name": "domReadystateInteractive",
-          "title": "DOM Ready Interactive"
+          "name": "elapsedLoadTime",
+          "title": "Elapsed Load Time"
         }
       ],
       "options": {
-        "title": "DOMReadystateInteractive - Async vs Sync global.js",
+        "title": "DROZ - Owl Carousel vs. Slick Carousel",
 
         "hAxis": {
           "title": "Runs"
@@ -23,31 +23,32 @@
     },
     "targets": {
       "resourceGraph": true,
-      "metrics": ["duration", "end"],
+      "metrics": ["size"],
       "targets": [
         {
-          "name": "global.js",
-          "title": "Global JS"
+          "name": "img",
+          "id": ["itok"],
+          "title": "Payload"
         }
       ],
       "options": {
-        "title": "Targets - Request Duration and Request End",
+        "title": "Responsive Image Payload",
         "hAxis": {
           "title": "Runs"
         },
         "vAxis": {
-          "title": "Time (milliseconds)"
+          "title": "Size (Bytes)"
         }
       }
     },
     "reports": [
       {
-        "name": "Async Global JS",
-        "file": "reports/async-globaljs.json"
+        "name": "Owl Carousel",
+        "file": "reports/owl.json"
       },
       {
-        "name": "Sync Global JS",
-        "file": "reports/sync-globaljs.json"
+        "name": "Slick Carousel",
+        "file": "reports/slick.json"
       }
     ]
   }

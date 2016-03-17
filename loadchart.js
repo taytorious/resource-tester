@@ -11,10 +11,10 @@ function LoadChart(el, chartConfig, reports) {
 }
 
 function cleanAdd(target, value) {
-    var newValue;
+    var newValue = 0;
     if (target) {
 
-        newValue += value;
+        newValue = target + value;
 
     } else {
 
@@ -107,12 +107,12 @@ LoadChart.prototype.populateResourceData = function(data, index) {
     var targetEnd = [];
     var targetSize = [];
     var targets = this.chartConfig.targets;
+
     for (var j = 0; j < data.resource.length; j++) {
 
         for (var q = 0; q < targets.length; q++) {
 
-            if (data.resource[j].url.indexOf(targets[q].name) > 0) {
-
+            if (this.isTargetResource(data.resource[j].url, targets[q].id)) {
                 targetDuration[targets[q].name] = cleanAdd(targetDuration[targets[q].name], data.resource[j].duration);
                 targetSize[targets[q].name] = cleanAdd(targetSize[targets[q].name], data.resource[j].size);
                 targetEnd[targets[q].name] = data.resource[j].end;
@@ -156,6 +156,15 @@ LoadChart.prototype.populateResourceData = function(data, index) {
 
     }
     return singleTargetRow;
+};
+
+LoadChart.prototype.isTargetResource = function(url, targets) {
+    for (var i=0; i < targets.length; i++) {
+        if(url.indexOf(targets[i]) > 0) {
+            return true;
+        }
+    }
+    return false;
 };
 
 LoadChart.prototype.populatePageData = function(data, index) {
